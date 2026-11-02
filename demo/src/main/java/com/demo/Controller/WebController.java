@@ -61,7 +61,7 @@ public class WebController {
 
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable Integer id, Model model) {
-        UserEntity usuario = userRepository.findById(id)
+        UserEntity usuario = userRepository.findByIdWithRoles(id)
                 .orElseThrow(() -> new IllegalArgumentException("Id No Encontrado: " + id));
         model.addAttribute("usuario", usuario);
         return "edit";

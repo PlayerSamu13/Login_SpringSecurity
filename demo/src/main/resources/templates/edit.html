@@ -19,7 +19,7 @@
             <p class="hint">El nombre de usuario es inmutable.</p>
         </div>
 
-        <div class="form-group" th:if="${not #lists.isEmpty(usuario.roles)}">
+        <div class="form-group" th:if="${not #sets.isEmpty(usuario.roles)}">
             <label>Roles asignados</label>
             <div class="roles-readonly">
                 <span class="badge-role badge-muted" th:each="rol : ${usuario.roles}" th:text="${rol.roleName}"></span>

@@ -13,7 +13,7 @@
     <div class="user-info">
         <span>Operador: <strong sec:authentication="name">Usuario</strong></span>
         <div class="badges-group">
-            <span class="badge-role" th:each="auth : ${#authentication.authorities}" th:text="${auth.authority}">ROL</span>
+            <span class="badge-role" th:each="auth : ${#authentication.principal.authorities}" th:text="${auth.authority}">ROL</span>
         </div>
         <form th:action="@{/logout}" method="post" style="margin:0;">
             <button type="submit" class="btn btn-outline">Desconectar</button>
