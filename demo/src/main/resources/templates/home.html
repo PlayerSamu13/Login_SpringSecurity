@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Operaciones</title>
+    <link th:href="@{/css/main.css}" rel="stylesheet"/>
+</head>
+<body>
+<nav class="navbar">
+    <h2>Terminal Administrativa</h2>
+    <div class="user-info">
+        <span>Operador: <strong sec:authentication="name">Usuario</strong></span>
+        <div class="badges-group">
+            <span class="badge-role" th:each="auth : ${#authentication.authorities}" th:text="${auth.authority}">ROL</span>
+        </div>
+        <form th:action="@{/logout}" method="post" style="margin:0;">
+            <button type="submit" class="btn btn-outline">Desconectar</button>
+        </form>
+    </div>
+</nav>
+
+<main class="container">
+    <div class="container-header">
+        <h3>Gestión de Credenciales</h3>
+        <a sec:authorize="hasAnyAuthority('ADMIN', 'CREATOR')" th:href="@{/new}" class="btn btn-primary">+ Nuevo Registro</a>
+    </div>
+
+    <div th:if="${param.created}" class="alert alert-success">Usuario creado correctamente.</div>
+    <div th:if="${param.updated}" class="alert alert-success">Usuario actualizado correctamente.</div>
+    <div th:if="${param.deleted}" class="alert alert-info">Usuario eliminado.</div>
+
+    <div class="table-responsive" th:if="${not #lists.isEmpty(usuarios)}">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Usuario</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="user : ${usuarios}">
+                <td th:text="${user.id}"></td>
+                <td th:text="${user.userName}"></td>
+                <td>
+                    <span class="status-pill"
+                          th:classappend="${user.userEnable} ? 'status-active' : 'status-inactive'"
+                          th:text="${user.userEnable ? 'Activo' : 'Inactivo'}"></span>
+                </td>
+                <td class="actions-cell">
+                    <a sec:authorize="hasAnyAuthority('ADMIN', 'EDITOR')"
+                       th:href="@{/edit/{id}(id=${user.id})}" class="btn btn-edit btn-sm">Editar</a>
+
+                    <form sec:authorize="hasAuthority('ADMIN')"
+                          th:action="@{/delete/{id}(id=${user.id})}" method="post" style="margin:0;"
+                          onsubmit="return confirm('¿Eliminar este usuario de forma permanente?');">
+                        <button type="submit" class="btn btn-delete btn-sm">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="empty-state" th:if="${#lists.isEmpty(usuarios)}">
+        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        <p>No hay usuarios registrados todavía.</p>
+    </div>
+</main>
+</body>
+</html>
