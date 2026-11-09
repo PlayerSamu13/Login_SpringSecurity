@@ -28,9 +28,9 @@ public class SecurityConfig {
         httpSecurity
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/login", "/css/**", "/403").permitAll()
-                        .requestMatchers("/").hasAnyAuthority("USER", "CREATOR", "EDITOR", "ADMIN")
-                        .requestMatchers("/new").hasAnyAuthority("ADMIN", "CREATOR")
-                        .requestMatchers("/edit/**").hasAnyAuthority("ADMIN", "EDITOR")
+                        .requestMatchers("/").hasAnyAuthority("ADMIN", "MEDICO", "PACIENTE")
+                        .requestMatchers("/new").hasAnyAuthority("ADMIN")
+                        .requestMatchers("/edit/**").hasAnyAuthority("ADMIN")
                         .requestMatchers("/delete/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                 )
