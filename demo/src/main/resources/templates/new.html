@@ -8,29 +8,41 @@
 </head>
 <body>
 <div class="form-container form-container-narrow">
-    <h2>Nuevo Registro</h2>
-    <p class="auth-subtitle" style="margin-bottom: 1.5rem;">Crea una cuenta y asigna sus permisos.</p>
+    <h2>Nuevo Paciente</h2>
 
     <form th:action="@{/new}" method="post">
         <div class="form-group">
-            <label for="username">Nombre de Usuario</label>
+            <label for="username">Nombre del Paciente</label>
             <input type="text" id="username" name="username" required autocomplete="off" autofocus>
         </div>
 
         <div class="form-group">
-            <label for="password">Contraseña</label>
-            <input type="password" id="password" name="password" required autocomplete="new-password">
+            <label for="motivoConsulta">Motivo de Consulta</label>
+            <input type="text" id="motivoConsulta" name="motivoConsulta" min="25" max="100" required autocomplete="new-motivoConsulta">
         </div>
 
-        <div class="form-group" th:if="${not #lists.isEmpty(roles)}">
-            <label>Roles</label>
+        <div class="form-group">
+            <label>Horario</label>
             <div class="checkbox-group">
-                <label class="checkbox-chip" th:each="rol : ${roles}">
-                    <input type="checkbox" name="roles" th:value="${rol.id}">
-                    <span th:text="${rol.roleName}"></span>
+                <label class="checkbox-chip">
+                    <span>H. Inicio</span>
+                    <input type="time" name="horario">
+                    <span>H. Salida</span>
+                    <input type="time" name="horario">
                 </label>
             </div>
-            <p class="hint">Selecciona al menos un rol para que el usuario pueda acceder al sistema.</p>
+        </div>
+
+        <div class="form-group">
+            <label>Médico</label>
+            <div class="checkbox-group">
+                <label class="checkbox-chip">
+                    <span>H. Inicio</span>
+                    <input type="time" name="horario">
+                    <span>H. Salida</span>
+                    <input type="time" name="horario">
+                </label>
+            </div>
         </div>
 
         <div class="actions-row">
